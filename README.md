@@ -13,4 +13,4 @@ or
 </div>
 <hr style="border: 2px solid blue;">
 <h1><b> PROJECT DESCRIPTION-ΛΙΓΑ ΛΟΓΙΑ </b></h1>
--------------------------------------------------------------------
+<hr style="border: 2px solid blue;">
