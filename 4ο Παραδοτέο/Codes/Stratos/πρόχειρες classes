@@ -1,0 +1,493 @@
+// User.java
+public class User {
+    protected String username;
+    protected String password;
+    protected String email;
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+}
+
+// Admin.java
+public class Admin extends User {
+    private String role;
+
+    public Admin(String username, String password, String email, String role) {
+        super(username, password, email);
+        this.role = role;
+    }
+}
+
+// Customer.java
+public class Customer extends User {
+    private String name;
+    private String phone;
+    private ShoppingCart cart;
+
+    public Customer(String username, String password, String email, String name, String phone) {
+        super(username, password, email);
+        this.name = name;
+        this.phone = phone;
+        this.cart = new ShoppingCart(this);
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+}
+
+// Account.java
+public class Account {
+    private Customer customer;
+    private String accountType;
+
+    public Account(Customer customer, String accountType) {
+        this.customer = customer;
+        this.accountType = accountType;
+    }
+}
+
+// Message.java
+public class Message {
+    private String subject;
+    private String body;
+    private String sender;
+    private String receiver;
+
+    public Message(String subject, String body, String sender, String receiver) {
+        this.subject = subject;
+        this.body = body;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+}
+
+// DB.java
+import java.util.List;
+
+public class DB {
+    public List<Object> selectFromDB(String query) {
+        return null;
+    }
+
+    public boolean insertToDB(Object obj) {
+        return true;
+    }
+
+    public boolean updateDB(Object obj) {
+        return true;
+    }
+
+    public boolean deleteFromDB(Object obj) {
+        return true;
+    }
+}
+
+// ManageMessageClass.java
+import java.util.List;
+
+public class ManageMessageClass {
+    private DB db = new DB();
+
+    public void sendMessage(Message message) {
+        db.insertToDB(message);
+    }
+
+    public void deleteMessage(Message message) {
+        db.deleteFromDB(message);
+    }
+
+    public List<Object> viewMessages() {
+        return db.selectFromDB("SELECT * FROM messages");
+    }
+}
+
+// UserMessagesScreen.java
+public class UserMessagesScreen {
+    private ManageMessageClass manageMessageClass = new ManageMessageClass();
+
+    public void viewMessages(Customer customer) {
+        manageMessageClass.viewMessages();
+    }
+}
+
+// MessageDetailScreen.java
+public class MessageDetailScreen {
+    public void showMessageDetail(Message message) {
+        System.out.println("From: " + message.sender);
+        System.out.println("To: " + message.receiver);
+        System.out.println("Subject: " + message.subject);
+        System.out.println("Body: " + message.body);
+    }
+}
+
+// ContactScreen.java
+public class ContactScreen {
+    private ManageMessageClass manageMessageClass = new ManageMessageClass();
+
+    public void makeNewMessage(Message message) {
+        manageMessageClass.sendMessage(message);
+    }
+}
+
+// MainMenu.java
+public class MainMenu {
+    private Customer customer;
+
+    public MainMenu(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void showMenu() {
+        System.out.println("Welcome, " + customer.username);
+    }
+}
+
+// Transportation.java
+public class Transportation {
+    private String type;
+    private double price;
+    private String destination;
+
+    public Transportation(String type, double price, String destination) {
+        this.type = type;
+        this.price = price;
+        this.destination = destination;
+    }
+}
+
+// Concert.java
+public class Concert {
+    private String artist;
+    private String date;
+    private double price;
+
+    public Concert(String artist, String date, double price) {
+        this.artist = artist;
+        this.date = date;
+        this.price = price;
+    }
+}
+
+// Accommodation.java
+public class Accomodation {
+    private String name;
+    private String location;
+    private double price;
+
+    public Accomodation(String name, String location, double price) {
+        this.name = name;
+        this.location = location;
+        this.price = price;
+    }
+}
+
+// Reservation.java
+public class Reservation {
+    private Customer customer;
+    private Object item;
+    private String date;
+
+    public Reservation(Customer customer, Object item, String date) {
+        this.customer = customer;
+        this.item = item;
+        this.date = date;
+    }
+}
+
+// Booking.java
+public class Booking {
+    private Reservation reservation;
+    private String bookingStatus;
+
+    public Booking(Reservation reservation, String bookingStatus) {
+        this.reservation = reservation;
+        this.bookingStatus = bookingStatus;
+    }
+}
+
+// ManageBookingClass.java
+public class ManageBookingClass {
+    private DB db = new DB();
+
+    public void updateBooking(Booking booking) {
+        db.updateDB(booking);
+    }
+
+    public void deleteBooking(Booking booking) {
+        db.deleteFromDB(booking);
+    }
+
+    public void viewBooking() {
+        db.selectFromDB("SELECT * FROM bookings");
+    }
+}
+
+// Payment.java
+public class Payment {
+    protected double amount;
+    protected String method;
+
+    public Payment(double amount, String method) {
+        this.amount = amount;
+        this.method = method;
+    }
+}
+
+// AltPaymentMethod.java
+public class AltPaymentMethod extends Payment {
+    private String providerName;
+
+    public AltPaymentMethod(double amount, String method, String providerName) {
+        super(amount, method);
+        this.providerName = providerName;
+    }
+}
+
+// ShoppingCart.java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ShoppingCart {
+    private Customer customer;
+    private List<Object> cartItems = new ArrayList<>();
+
+    public ShoppingCart(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void addItem(Object item) {
+        cartItems.add(item);
+    }
+
+    public void removeItem(Object item) {
+        cartItems.remove(item);
+    }
+
+    public void checkout() {
+        System.out.println("Proceeding to checkout for " + customer.username);
+    }
+}
+
+
+
+
+
+
+
+
+// ManageUpdatedClass.java
+public class ManageUpdatedClass {
+    private DB db = new DB();
+
+    public void updateInformation(Object item) {
+        db.updateDB(item);
+    }
+}
+
+// SearchResultScreen.java
+import java.util.List;
+
+public class SearchResultScreen {
+    public void displayResults(List<Object> results) {
+        for (Object result : results) {
+            System.out.println(result.toString());
+        }
+    }
+}
+
+// ErrorScreen.java
+public class ErrorScreen {
+    public void showError(String message) {
+        System.out.println("Error: " + message);
+    }
+}
+
+// AltSearchResultScreen.java
+public class AltSearchResultScreen {
+    public void showAlternativeResults(List<Object> alternatives) {
+        System.out.println("Showing alternative results...");
+        for (Object alt : alternatives) {
+            System.out.println(alt.toString());
+        }
+    }
+}
+
+// ManageSearchClass.java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ManageSearchClass {
+    private DB db = new DB();
+
+    public List<Object> search(String criteria) {
+        return db.selectFromDB("SELECT * FROM data WHERE criteria = '" + criteria + "'");
+    }
+}
+
+// SearchScreen.java
+public class SearchScreen {
+    private ManageSearchClass searchManager = new ManageSearchClass();
+    private SearchResultScreen resultScreen = new SearchResultScreen();
+
+    public void performSearch(String input) {
+        List<Object> results = searchManager.search(input);
+        if (results == null || results.isEmpty()) {
+            new ErrorScreen().showError("No results found.");
+        } else {
+            resultScreen.displayResults(results);
+        }
+    }
+}
+
+// SiteManagement.java
+public class SiteManagement {
+    private ManageUpdatedClass updater = new ManageUpdatedClass();
+
+    public void manageSite(Object infoToUpdate) {
+        updater.updateInformation(infoToUpdate);
+    }
+}
+
+// UpdateTransportationScreen.java
+public class UpdateTransportationScreen {
+    private ManageUpdatedClass updater = new ManageUpdatedClass();
+
+    public void updateTransportation(Transportation t) {
+        updater.updateInformation(t);
+    }
+}
+
+// UpdateConcertScreen.java
+public class UpdateConcertScreen {
+    private ManageUpdatedClass updater = new ManageUpdatedClass();
+
+    public void updateConcert(Concert c) {
+        updater.updateInformation(c);
+    }
+}
+
+// UpdateAccomodationScreen.java
+public class UpdateAccomodationScreen {
+    private ManageUpdatedClass updater = new ManageUpdatedClass();
+
+    public void updateAccommodation(Accomodation a) {
+        updater.updateInformation(a);
+    }
+}
+
+// AboutUs.java
+public class AboutUs {
+    public void showAboutInfo() {
+        System.out.println("This is a travel booking application.");
+    }
+}
+
+// PaymentConfirmation.java
+public class PaymentConfirmation {
+    public void confirmPayment(Payment payment) {
+        System.out.println("Payment of " + payment.amount + " via " + payment.method + " confirmed.");
+    }
+}
+
+// ConfirmationEmail.java
+public class ConfirmationEmail {
+    public void sendEmail(String email, String content) {
+        System.out.println("Sending confirmation to " + email + ": " + content);
+    }
+}
+
+// ConfirmationScreen.java
+public class ConfirmationScreen {
+    public void displayConfirmation(Booking booking) {
+        System.out.println("Booking confirmed with status: " + booking.bookingStatus);
+    }
+}
+
+// BookingScreen.java
+public class BookingScreen {
+    private ManageBookingClass bookingManager = new ManageBookingClass();
+    private ConfirmationScreen confirmationScreen = new ConfirmationScreen();
+
+    public void makeBooking(Reservation reservation) {
+        Booking booking = new Booking(reservation, "Confirmed");
+        bookingManager.updateBooking(booking);
+        confirmationScreen.displayConfirmation(booking);
+    }
+}
+
+// CreateAccountScreen.java
+public class CreateAccountScreen {
+    public Account createAccount(Customer customer, String accountType) {
+        return new Account(customer, accountType);
+    }
+}
+
+// ManageSignInClass.java
+public class ManageSignInClass {
+    public boolean validateCredentials(String username, String password) {
+        return username.equals("user") && password.equals("pass");
+    }
+}
+
+// SignInScreen.java
+public class SignInScreen {
+    private ManageSignInClass signInManager = new ManageSignInClass();
+
+    public boolean login(String username, String password) {
+        return signInManager.validateCredentials(username, password);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+(ειχε ξεχασει το τσατ το TransportationMenu και του ζητησα σε άλλη σελιδα για αυτό οποτε δε ξερω αν είναι σωστο)
+
+
+
+
+
+import java.util.List;
+import java.util.Scanner;
+
+public class TransportationMenu {
+    private List<Transportation> options;
+
+    // Φορτώνει τις επιλογές μεταφοράς
+    public void loadOptions(List<Transportation> options) {
+        this.options = options;
+        System.out.println("Transportation options loaded:");
+        for (int i = 0; i < options.size(); i++) {
+            Transportation t = options.get(i);
+            System.out.println((i+1) + ". " + t.getType() + " to " + t.getDestination() + " - $" + t.getPrice());
+        }
+    }
+
+    // Επιτρέπει στον χρήστη να επιλέξει μια επιλογή
+    public Transportation makeChoice() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please choose a transportation option (enter number): ");
+        int choice = scanner.nextInt();
+        if (choice < 1 || choice > options.size()) {
+            System.out.println("Invalid choice.");
+            return null;
+        }
+        Transportation selected = options.get(choice - 1);
+        System.out.println("You selected: " + selected.getType() + " to " + selected.getDestination());
+        return selected;
+    }
+}
+
+
+
