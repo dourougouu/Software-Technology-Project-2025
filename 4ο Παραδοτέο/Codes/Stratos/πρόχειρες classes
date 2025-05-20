@@ -448,16 +448,6 @@ public class SignInScreen {
 
 
 
-
-
-
-
-(ειχε ξεχασει το τσατ το TransportationMenu και του ζητησα σε άλλη σελιδα για αυτό οποτε δε ξερω αν είναι σωστο)
-
-
-
-
-
 import java.util.List;
 import java.util.Scanner;
 
