@@ -1,0 +1,647 @@
+// User.java
+public class User {
+    protected String UserID;
+    protected String UserType;
+    protected String Username;
+    protected String Password;
+    protected String Email;
+
+    public User(String UserID, String UserType, String Username, String Password, String Email) {
+        this.UserID = UserID;
+        this.UserType = UserType;
+        this.Username = Username;
+        this.Password = Password;
+        this.Email = Email;
+    }
+}
+
+// Admin.java
+public class Admin extends User {
+    private String role;
+
+    public Admin(String UserID, String UserType, String Username, String Password, String Email) {
+        super(Username, Password, Email);
+        this.role = role;
+    }
+}
+
+// Customer.java
+public class Customer extends User {
+    private String name;
+    private String phone;
+    private ShoppingCart cart;
+
+    public Customer(String Username, String Password, String Email, String name, String phone) {
+        super(Username, Password, Email);
+        this.name = name;
+        this.phone = phone;
+        this.cart = new ShoppingCart(this);
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+}
+
+// Account.java
+public class Account {
+    private Customer customer;
+    private String accountType;
+
+    public Account(Customer customer, String accountType) {
+        this.customer = customer;
+        this.accountType = accountType;
+    }
+}
+
+// Message.java
+public class Message {
+    private String sender;
+    private String receiver;
+    private String subject;
+    private String body;
+
+    public Message(String sender, String receiver, String subject, String body) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.subject = subject;
+        this.body = body;
+    }
+
+    public String getSender() { return sender; }
+    public String getReceiver() { return receiver; }
+    public String getSubject() { return subject; }
+    public String getBody() { return body; }
+}
+
+
+// DBManager.java
+import java.util.List;
+
+public class DBManager {
+    public boolean ckeckIfUserExists(){
+
+    }
+    public boolean saveUser(){
+
+    }
+    public boolean queryConcertTickets(){
+
+    }
+    public boolean queryTransportationTickets(){
+
+    }
+    public boolean queryAccommodation(){
+
+    }
+    public boolean queryUCon(){
+
+    }
+    public boolean queryUTransp(){
+
+    }
+    public boolean queryUAc(){
+
+    }
+    public boolean updateAc(){
+
+    }
+    public boolean updateCon(){
+
+    }
+    public boolean updateTransp(){
+        
+    }
+}
+
+// ManageMessageClass.java
+import java.util.List;
+
+public class ManageMessageClass {
+    private Message message;
+
+    public void submitMessage() {
+        // Logic to submit the message
+        System.out.println("Message submitted: " + message);
+    }
+
+    public void startUpdate() {
+        // Logic to start message update
+        System.out.println("Updating message: " + message);
+    }
+
+    // Optional: Setter if you want to inject the message from outside
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+}
+
+
+//UserMessagesScreen.java
+public class UserMessagesScreen {
+    private Message message;
+
+    public void selectMessage() {
+        // Logic for selecting a message
+        System.out.println("Message selected: " + message);
+    }
+
+    public void spam() {
+        // Logic to mark message as spam
+        System.out.println("Message marked as spam: " + message);
+    }
+
+    public void displayMessage() {
+        // Logic to display message
+        System.out.println("Displaying message: " + message);
+    }
+
+    // Optional: Setter for message if needed externally
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+}
+
+
+//MessageDetailScreen.java
+public class MessageDetailScreen {
+    private Message message;
+
+    public MessageDetailScreen(Message message) {
+        this.message = message;
+    }
+
+    public void Accept() {
+        // Logic for accepting the message
+        System.out.println("Message accepted from: " + message.getSender());
+    }
+
+    public void Deny() {
+        // Logic for denying the message
+        System.out.println("Message denied from: " + message.getSender());
+    }
+
+    public void show() {
+        // Display message details
+        System.out.println("From: " + message.getSender());
+        System.out.println("To: " + message.getReceiver());
+        System.out.println("Subject: " + message.getSubject());
+        System.out.println("Body: " + message.getBody());
+    }
+}
+
+// ContactScreen.java
+public class ContactScreen {
+    private Message message;
+
+    public void display() {
+        // Logic to display the contact form screen
+        System.out.println("Displaying contact screen...");
+    }
+
+    public void fillForm(String sender, String receiver, String subject, String body) {
+        // Logic to fill the form and create a message
+        message = new Message(sender, receiver, subject, body);
+        System.out.println("Message form filled:");
+        System.out.println("From: " + message.getSender());
+        System.out.println("To: " + message.getReceiver());
+        System.out.println("Subject: " + message.getSubject());
+        System.out.println("Body: " + message.getBody());
+    }
+
+    // Optional getter if you want to retrieve the message
+    public Message getMessage() {
+        return message;
+    }
+}
+
+
+// MainMenu.java
+public class MainMenu {
+    private Customer customer;
+
+    public MainMenu(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void showMenu() {
+        System.out.println("Welcome, " + customer.getUsername());
+        System.out.println("1. View Concerts");
+        System.out.println("2. Book Transportation");
+        System.out.println("3. Contact Us");
+        System.out.println("4. About Us");
+    }
+
+    public void makeChoice(int choice) {
+        switch (choice) {
+            case 1:
+                System.out.println("Navigating to concerts...");
+                break;
+            case 2:
+                System.out.println("Navigating to transportation...");
+                break;
+            case 3:
+                System.out.println("Opening contact form...");
+                break;
+            case 4:
+                clickAboutUs();
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
+
+    public void clickAboutUs() {
+        System.out.println("About Us:");
+        System.out.println("This application helps you book concerts, transportation, and accommodation easily.");
+    }
+}
+
+
+// Transportation.java
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Transportation {
+    private String transportationID;
+    private String transportationType;
+    private LocalDate date;
+    private LocalTime time;
+    private int seat;
+
+    public Transportation(String transportationID, String transportationType, LocalDate date, LocalTime time, int seat) {
+        this.transportationID = transportationID;
+        this.transportationType = transportationType;
+        this.date = date;
+        this.time = time;
+        this.seat = seat;
+    }
+
+    public String getTransportationID() {
+        return transportationID;
+    }
+
+    public void setTransportationID(String transportationID) {
+        this.transportationID = transportationID;
+    }
+
+    public String getTransportationType() {
+        return transportationType;
+    }
+
+    public void setTransportationType(String transportationType) {
+        this.transportationType = transportationType;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+}
+
+
+// Concert.java
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Concert {
+    private String concertID;
+    private String concertType;
+    private String artist;
+    private LocalDate date;
+    private LocalTime time;
+    private int seat;
+
+    public Concert(String concertID, String concertType, String artist, LocalDate date, LocalTime time, int seat) {
+        this.concertID = concertID;
+        this.concertType = concertType;
+        this.artist = artist;
+        this.date = date;
+        this.time = time;
+        this.seat = seat;
+    }
+
+    public String getConcertID() {
+        return concertID;
+    }
+
+    public void setConcertID(String concertID) {
+        this.concertID = concertID;
+    }
+
+    public String getConcertType() {
+        return concertType;
+    }
+
+    public void setConcertType(String concertType) {
+        this.concertType = concertType;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+}
+
+
+// Accommodation.java
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Accommodation {
+    private String accommodationID;
+    private String accommodationType;
+    private String roomType;
+    private LocalDate date;
+    private LocalTime time;
+    private String extraInfo;
+
+    public Accommodation(String accommodationID, String accommodationType, String roomType,
+                         LocalDate date, LocalTime time, String extraInfo) {
+        this.accommodationID = accommodationID;
+        this.accommodationType = accommodationType;
+        this.roomType = roomType;
+        this.date = date;
+        this.time = time;
+        this.extraInfo = extraInfo;
+    }
+
+    public String getAccommodationID() {
+        return accommodationID;
+    }
+
+    public void setAccommodationID(String accommodationID) {
+        this.accommodationID = accommodationID;
+    }
+
+    public String getAccommodationType() {
+        return accommodationType;
+    }
+
+    public void setAccommodationType(String accommodationType) {
+        this.accommodationType = accommodationType;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
+    }
+}
+
+
+// Reservation.java
+import java.time.LocalDateTime;
+
+public class Reservation {
+    private String reservationID;
+    private LocalDateTime reservationDateTime;
+    private String reservationType;
+    private Customer customer;
+    private Admin admin;
+
+    public Reservation(String reservationID, LocalDateTime reservationDateTime,
+                       String reservationType, Customer customer, Admin admin) {
+        this.reservationID = reservationID;
+        this.reservationDateTime = reservationDateTime;
+        this.reservationType = reservationType;
+        this.customer = customer;
+        this.admin = admin;
+    }
+
+    public String getReservationID() {
+        return reservationID;
+    }
+
+    public void setReservationID(String reservationID) {
+        this.reservationID = reservationID;
+    }
+
+    public LocalDateTime getReservationDateTime() {
+        return reservationDateTime;
+    }
+
+    public void setReservationDateTime(LocalDateTime reservationDateTime) {
+        this.reservationDateTime = reservationDateTime;
+    }
+
+    public String getReservationType() {
+        return reservationType;
+    }
+
+    public void setReservationType(String reservationType) {
+        this.reservationType = reservationType;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+}
+
+
+
+// Booking.java
+public class Booking {
+    private Reservation reservation;
+    private String bookingStatus;
+
+    public Booking(Reservation reservation, String bookingStatus) {
+        this.reservation = reservation;
+        this.bookingStatus = bookingStatus;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public String getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(String bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+}
+
+
+
+
+// ManageBookingClass.java
+public class ManageBookingClass {
+    private DB db = new DB();
+
+    public void updateBooking(Booking booking) {
+        db.updateDB(booking);
+    }
+
+    public void deleteBooking(Booking booking) {
+        db.deleteFromDB(booking);
+    }
+
+    public void viewBooking() {
+        db.selectFromDB("SELECT * FROM bookings");
+    }
+}
+
+// Payment.java
+public class Payment {
+    private String paymentID;      // Unique ID for the payment
+    private Customer customer;     // Customer who made the payment
+    private String paymentMethod;  // Payment method (e.g. credit card, cash)
+    private double amount;         // Amount paid
+
+    public Payment(String paymentID, Customer customer, String paymentMethod, double amount) {
+        this.paymentID = paymentID;
+        this.customer = customer;
+        this.paymentMethod = paymentMethod;
+        this.amount = amount;
+    }
+
+    // Getters and setters for each field
+
+    public String getPaymentID() {
+        return paymentID;
+    }
+
+    public void setPaymentID(String paymentID) {
+        this.paymentID = paymentID;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+}
+
+
+// AltPaymentMethod.java
+public class AltPaymentMethod {
+    private Payment payment;
+    private String providerName;
+
+    public AltPaymentMethod(Payment payment, String providerName) {
+        this.payment = payment;
+        this.providerName = providerName;
+    }
+
+    // Delegate Payment methods if needed
+    public double getAmount() {
+        return payment.getAmount();
+    }
+
+    public String getMethod() {
+        return payment.getPaymentMethod();
+    }
+
+    // getter for providerName
+    public String getProviderName() {
+        return providerName;
+    }
+}
