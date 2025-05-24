@@ -70,7 +70,7 @@ public class Message {
 
     public Boolean save() { return true; }
     public boolean update() { return true; }
-    }
+}
 
 
 // DBManager.java
@@ -130,7 +130,7 @@ public class ManageMessageClass {
 }
 
 
-//UserMessagesScreen.java
+// UserMessagesScreen.java
 public class UserMessagesScreen {
     private Message message;
 
@@ -151,7 +151,7 @@ public class UserMessagesScreen {
 }
 
 
-//MessageDetailScreen.java
+// MessageDetailScreen.java
 public class MessageDetailScreen {
     private Message message;
 
