@@ -68,11 +68,9 @@ public class Message {
         this.body = body;
     }
 
-    public String getSender() { return sender; }
-    public String getReceiver() { return receiver; }
-    public String getSubject() { return subject; }
-    public String getBody() { return body; }
-}
+    public Boolean save() { return true; }
+    public boolean update() { return true; }
+    }
 
 
 // DBManager.java
@@ -129,11 +127,6 @@ public class ManageMessageClass {
         // Logic to start message update
         System.out.println("Updating message: " + message);
     }
-
-    // Optional: Setter if you want to inject the message from outside
-    public void setMessage(Message message) {
-        this.message = message;
-    }
 }
 
 
@@ -154,11 +147,6 @@ public class UserMessagesScreen {
     public void displayMessage() {
         // Logic to display message
         System.out.println("Displaying message: " + message);
-    }
-
-    // Optional: Setter for message if needed externally
-    public void setMessage(Message message) {
-        this.message = message;
     }
 }
 
@@ -208,21 +196,12 @@ public class ContactScreen {
         System.out.println("Subject: " + message.getSubject());
         System.out.println("Body: " + message.getBody());
     }
-
-    // Optional getter if you want to retrieve the message
-    public Message getMessage() {
-        return message;
-    }
 }
 
 
 // MainMenu.java
 public class MainMenu {
     private Customer customer;
-
-    public MainMenu(Customer customer) {
-        this.customer = customer;
-    }
 
     public void showMenu() {
         System.out.println("Welcome, " + customer.getUsername());
@@ -263,58 +242,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Transportation {
-    private String transportationID;
-    private String transportationType;
-    private LocalDate date;
-    private LocalTime time;
-    private int seat;
+    private int ΤransportationID;
+    private String ΤransportationType;
+    private LocalDate Date;
+    private LocalTime Time;
+    private int Seat;
 
     public Transportation(String transportationID, String transportationType, LocalDate date, LocalTime time, int seat) {
         this.transportationID = transportationID;
         this.transportationType = transportationType;
-        this.date = date;
-        this.time = time;
-        this.seat = seat;
-    }
-
-    public String getTransportationID() {
-        return transportationID;
-    }
-
-    public void setTransportationID(String transportationID) {
-        this.transportationID = transportationID;
-    }
-
-    public String getTransportationType() {
-        return transportationType;
-    }
-
-    public void setTransportationType(String transportationType) {
-        this.transportationType = transportationType;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public int getSeat() {
-        return seat;
-    }
-
-    public void setSeat(int seat) {
-        this.seat = seat;
+        this.date = Date;
+        this.time = Time;
+        this.seat = Seat;
     }
 }
 
@@ -324,68 +263,20 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Concert {
-    private String concertID;
-    private String concertType;
-    private String artist;
-    private LocalDate date;
-    private LocalTime time;
-    private int seat;
+    private int ConcertID;
+    private String ConcertType;
+    private String Artist;
+    private LocalDate Date;
+    private LocalTime Time;
+    private int Seat;
 
     public Concert(String concertID, String concertType, String artist, LocalDate date, LocalTime time, int seat) {
         this.concertID = concertID;
         this.concertType = concertType;
         this.artist = artist;
-        this.date = date;
-        this.time = time;
-        this.seat = seat;
-    }
-
-    public String getConcertID() {
-        return concertID;
-    }
-
-    public void setConcertID(String concertID) {
-        this.concertID = concertID;
-    }
-
-    public String getConcertType() {
-        return concertType;
-    }
-
-    public void setConcertType(String concertType) {
-        this.concertType = concertType;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public int getSeat() {
-        return seat;
-    }
-
-    public void setSeat(int seat) {
-        this.seat = seat;
+        this.date = Date;
+        this.time = Time;
+        this.seat = Seat;
     }
 }
 
@@ -411,54 +302,6 @@ public class Accommodation {
         this.time = time;
         this.extraInfo = extraInfo;
     }
-
-    public String getAccommodationID() {
-        return accommodationID;
-    }
-
-    public void setAccommodationID(String accommodationID) {
-        this.accommodationID = accommodationID;
-    }
-
-    public String getAccommodationType() {
-        return accommodationType;
-    }
-
-    public void setAccommodationType(String accommodationType) {
-        this.accommodationType = accommodationType;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public void setExtraInfo(String extraInfo) {
-        this.extraInfo = extraInfo;
-    }
 }
 
 
@@ -466,59 +309,19 @@ public class Accommodation {
 import java.time.LocalDateTime;
 
 public class Reservation {
-    private String reservationID;
-    private LocalDateTime reservationDateTime;
-    private String reservationType;
+    private int ReservationID;
+    private LocalDateTime ReservationDateTime;
+    private String ReservationType;
     private Customer customer;
     private Admin admin;
 
     public Reservation(String reservationID, LocalDateTime reservationDateTime,
                        String reservationType, Customer customer, Admin admin) {
-        this.reservationID = reservationID;
-        this.reservationDateTime = reservationDateTime;
-        this.reservationType = reservationType;
-        this.customer = customer;
-        this.admin = admin;
-    }
-
-    public String getReservationID() {
-        return reservationID;
-    }
-
-    public void setReservationID(String reservationID) {
-        this.reservationID = reservationID;
-    }
-
-    public LocalDateTime getReservationDateTime() {
-        return reservationDateTime;
-    }
-
-    public void setReservationDateTime(LocalDateTime reservationDateTime) {
-        this.reservationDateTime = reservationDateTime;
-    }
-
-    public String getReservationType() {
-        return reservationType;
-    }
-
-    public void setReservationType(String reservationType) {
-        this.reservationType = reservationType;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+        this.ReservationID = reservationID;
+        this.ReservationDateTime = reservationDateTime;
+        this.ReservationType = reservationType;
+        this.Customer = customer;
+        this.Admin = admin;
     }
 }
 
@@ -527,28 +330,12 @@ public class Reservation {
 // Booking.java
 public class Booking {
     private Reservation reservation;
-    private String bookingStatus;
 
     public Booking(Reservation reservation, String bookingStatus) {
         this.reservation = reservation;
         this.bookingStatus = bookingStatus;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public String getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(String bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
 }
 
 
@@ -573,51 +360,18 @@ public class ManageBookingClass {
 
 // Payment.java
 public class Payment {
-    private String paymentID;      // Unique ID for the payment
+    private int paymentID;      // Unique ID for the payment
     private Customer customer;     // Customer who made the payment
-    private String paymentMethod;  // Payment method (e.g. credit card, cash)
+    private String PaymentMethod;  // Payment method (e.g. credit card, cash)
     private double amount;         // Amount paid
 
-    public Payment(String paymentID, Customer customer, String paymentMethod, double amount) {
+    public Payment(String paymentID, Customer customer, String PaymentMethod, double amount) {
         this.paymentID = paymentID;
         this.customer = customer;
         this.paymentMethod = paymentMethod;
         this.amount = amount;
     }
 
-    // Getters and setters for each field
-
-    public String getPaymentID() {
-        return paymentID;
-    }
-
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 }
 
 
@@ -629,19 +383,5 @@ public class AltPaymentMethod {
     public AltPaymentMethod(Payment payment, String providerName) {
         this.payment = payment;
         this.providerName = providerName;
-    }
-
-    // Delegate Payment methods if needed
-    public double getAmount() {
-        return payment.getAmount();
-    }
-
-    public String getMethod() {
-        return payment.getPaymentMethod();
-    }
-
-    // getter for providerName
-    public String getProviderName() {
-        return providerName;
     }
 }
