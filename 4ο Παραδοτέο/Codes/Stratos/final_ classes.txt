@@ -1,0 +1,814 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ShoppingCart {
+    private Customer customer;
+    private List<Item> cartItems = new ArrayList<>();
+    private String paymentMethod;
+    private boolean infoConfirmed = false;
+
+    public ShoppingCart(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void addItem(Item item) {
+        cartItems.add(item);
+    }
+
+    public void removeItem(Item item) {
+        cartItems.remove(item);
+    }
+
+    public void addTransportationTicket(String origin, String destination) {
+        TransportationTicket ticket = new TransportationTicket(origin, destination);
+        addItem(ticket);
+        System.out.println("Transportation ticket added: " + origin + " -> " + destination);
+    }
+
+    public void addConcertTicket(String artist, String venue) {
+        ConcertTicket ticket = new ConcertTicket(artist, venue);
+        addItem(ticket);
+        System.out.println("Concert ticket added: " + artist + " at " + venue);
+    }
+
+    public void addAccommodation(String hotelName, int nights) {
+        Accommodation accommodation = new Accommodation(hotelName, nights);
+        addItem(accommodation);
+        System.out.println("Accommodation added: " + hotelName + " for " + nights + " nights");
+    }
+
+    public void selectPaymentMethod(String method) {
+        this.paymentMethod = method;
+        System.out.println("Payment method selected: " + method);
+    }
+
+    public void confirmInfo() {
+        this.infoConfirmed = true;
+        System.out.println("Information confirmed.");
+    }
+
+    public void checkout() {
+        if (!infoConfirmed) {
+            System.out.println("Please confirm your information before checkout.");
+            return;
+        }
+        if (paymentMethod == null || paymentMethod.isEmpty()) {
+            System.out.println("Please select a payment method before checkout.");
+            return;
+        }
+        System.out.println("Proceeding to checkout for " + customer.getUsername());
+        System.out.println("Items in cart: " + cartItems.size());
+        System.out.println("Payment method: " + paymentMethod);
+        // Εδώ θα μπορούσε να ακολουθήσει η διαδικασία πληρωμής, κτλ.
+    }
+}
+
+
+
+
+
+
+
+
+public class ManageUpdatedClass {
+    private DB db = new DB();
+
+    // Προαιρετικά attributes, π.χ. για tracking ή logging
+    private String lastUpdatedEntity;
+    private Object lastUpdatedObject;
+
+    // Update TransportationTicket
+    public boolean updateTransportation(TransportationTicket ticket) {
+        boolean success = db.updateTransportation(ticket);
+        if(success) {
+            lastUpdatedEntity = "TransportationTicket";
+            lastUpdatedObject = ticket;
+            System.out.println("TransportationTicket updated successfully.");
+        } else {
+            System.out.println("Failed to update TransportationTicket.");
+        }
+        return success;
+    }
+
+    // Update Accommodation
+    public boolean updateAccommodation(Accommodation accommodation) {
+        boolean success = db.updateAccommodation(accommodation);
+        if(success) {
+            lastUpdatedEntity = "Accommodation";
+            lastUpdatedObject = accommodation;
+            System.out.println("Accommodation updated successfully.");
+        } else {
+            System.out.println("Failed to update Accommodation.");
+        }
+        return success;
+    }
+
+    // Update ConcertTicket
+    public boolean updateConcert(ConcertTicket concertTicket) {
+        boolean success = db.updateConcert(concertTicket);
+        if(success) {
+            lastUpdatedEntity = "ConcertTicket";
+            lastUpdatedObject = concertTicket;
+            System.out.println("ConcertTicket updated successfully.");
+        } else {
+            System.out.println("Failed to update ConcertTicket.");
+        }
+        return success;
+    }
+
+    // Share data with a recipient (πχ. username, email, ή άλλη μορφή)
+    public void shareData(String recipient, Object data) {
+        // Καλούμε τη db.share() ή άλλη λειτουργία για να μοιράσουμε τα δεδομένα
+        boolean shared = db.share(recipient, data);
+        if(shared) {
+            System.out.println("Data shared successfully with " + recipient);
+        } else {
+            System.out.println("Failed to share data with " + recipient);
+        }
+    }
+}
+
+
+
+
+import java.util.List;
+
+public class SearchResultScreen {
+
+    private DB db = new DB();
+
+    private List<TransportationTicket> transportationResults;
+    private List<ConcertTicket> concertResults;
+    private List<Accommodation> accommodationResults;
+
+    private TransportationTicket selectedTransportationTicket;
+    private ConcertTicket selectedConcertTicket;
+    private Accommodation selectedAccommodation;
+
+    // Εμφανίζει αποτελέσματα μεταφορών
+    public void showTranspResult() {
+        transportationResults = db.getTransportationResults();
+        System.out.println("Transportation Results:");
+        for (TransportationTicket ticket : transportationResults) {
+            System.out.println(ticket);
+        }
+    }
+
+    // Επιλέγει εισιτήριο από αποτελέσματα (π.χ. βάση index)
+    public void selectTicket(int index, String type) {
+        switch (type.toLowerCase()) {
+            case "transportation":
+                if (index >= 0 && index < transportationResults.size()) {
+                    selectedTransportationTicket = transportationResults.get(index);
+                    System.out.println("Selected transportation ticket: " + selectedTransportationTicket);
+                }
+                break;
+            case "concert":
+                if (index >= 0 && index < concertResults.size()) {
+                    selectedConcertTicket = concertResults.get(index);
+                    System.out.println("Selected concert ticket: " + selectedConcertTicket);
+                }
+                break;
+            case "accommodation":
+                if (index >= 0 && index < accommodationResults.size()) {
+                    selectedAccommodation = accommodationResults.get(index);
+                    System.out.println("Selected accommodation: " + selectedAccommodation);
+                }
+                break;
+            default:
+                System.out.println("Unknown ticket type.");
+        }
+    }
+
+    // Εμφανίζει καταλύματα
+    public void showAcResult() {
+        accommodationResults = db.getAccommodationResults();
+        System.out.println("Accommodation Results:");
+        for (Accommodation acc : accommodationResults) {
+            System.out.println(acc);
+        }
+    }
+
+    // Εμφανίζει συναυλίες
+    public void showConResult() {
+        concertResults = db.getConcertResults();
+        System.out.println("Concert Results:");
+        for (ConcertTicket concert : concertResults) {
+            System.out.println(concert);
+        }
+    }
+
+    // Εμφανίζει ενημερωμένα καταλύματα
+    public void showUAcResult() {
+        accommodationResults = db.getUpdatedAccommodations();
+        System.out.println("Updated Accommodation Results:");
+        for (Accommodation acc : accommodationResults) {
+            System.out.println(acc);
+        }
+    }
+
+    // Εμφανίζει ενημερωμένες συναυλίες
+    public void showUConResult() {
+        concertResults = db.getUpdatedConcerts();
+        System.out.println("Updated Concert Results:");
+        for (ConcertTicket concert : concertResults) {
+            System.out.println(concert);
+        }
+    }
+
+    // Εμφανίζει ενημερωμένες μεταφορές
+    public void showUTranspResult() {
+        transportationResults = db.getUpdatedTransportation();
+        System.out.println("Updated Transportation Results:");
+        for (TransportationTicket ticket : transportationResults) {
+            System.out.println(ticket);
+        }
+    }
+}
+
+
+
+
+public class ErrorScreen {
+    private DB db = new DB();
+    private String errorMessage;
+
+    // Κατασκευαστής
+    public ErrorScreen(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    // Μέθοδος εμφάνισης του σφάλματος
+    public void display() {
+        System.out.println("ERROR:");
+        System.out.println(errorMessage);
+    }
+
+    // Setter αν θέλεις να αλλάξεις το μήνυμα μετά τη δημιουργία
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    // Getter
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+}
+
+
+public class AltSearchResultScreen {
+    private DB db = new DB();
+    private String selectedPaymentMethod;
+
+    // Εμφανίζει την εναλλακτική οθόνη αποτελεσμάτων
+    public void display() {
+        System.out.println("Displaying alternative search results...");
+        // Π.χ. θα μπορούσε να φέρνει διαφορετικά αποτελέσματα με βάση νέα κριτήρια
+    }
+
+    // Επιλογή νέας μεθόδου πληρωμής
+    public void choseNewPaymentMethod(String method) {
+        this.selectedPaymentMethod = method;
+        System.out.println("New payment method selected: " + method);
+        // Π.χ. db.savePaymentMethod(customerId, method);
+    }
+
+    // Getter
+    public String getSelectedPaymentMethod() {
+        return selectedPaymentMethod;
+    }
+}
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ManageSearchClass {
+    private DB db = new DB();
+
+    private List<ConcertTicket> concertResults = new ArrayList<>();
+    private List<TransportationTicket> transportationResults = new ArrayList<>();
+    private List<Accommodation> accommodationResults = new ArrayList<>();
+
+    // Κανονική αναζήτηση για συναυλίες
+    public void searchConcert() {
+        concertResults = db.getConcertResults();
+        System.out.println("Concert search completed. Found " + concertResults.size() + " results.");
+    }
+
+    // Κανονική αναζήτηση για μεταφορές
+    public void searchTransportation() {
+        transportationResults = db.getTransportationResults();
+        System.out.println("Transportation search completed. Found " + transportationResults.size() + " results.");
+    }
+
+    // Κανονική αναζήτηση για καταλύματα
+    public void searchAccommodation() {
+        accommodationResults = db.getAccommodationResults();
+        System.out.println("Accommodation search completed. Found " + accommodationResults.size() + " results.");
+    }
+
+    // Συντομευμένη ή εναλλακτική αναζήτηση για μεταφορές
+    public void searchTrans() {
+        transportationResults = db.getUpdatedTransportation();
+        System.out.println("Alternative transportation search completed.");
+    }
+
+    // Συντομευμένη ή εναλλακτική αναζήτηση για συναυλίες
+    public void searchCon() {
+        concertResults = db.getUpdatedConcerts();
+        System.out.println("Alternative concert search completed.");
+    }
+
+    // Συντομευμένη ή εναλλακτική αναζήτηση για καταλύματα
+    public void searchAc() {
+        accommodationResults = db.getUpdatedAccommodations();
+        System.out.println("Alternative accommodation search completed.");
+    }
+
+    // Προαιρετικά: Getters
+    public List<ConcertTicket> getConcertResults() {
+        return concertResults;
+    }
+
+    public List<TransportationTicket> getTransportationResults() {
+        return transportationResults;
+    }
+
+    public List<Accommodation> getAccommodationResults() {
+        return accommodationResults;
+    }
+}
+
+
+
+public class SearchScreen {
+    private Transportation transportation;
+    private Concert concert;
+    private Accommodation accommodation;
+
+    // Εμφανίζει τη γενική οθόνη αναζήτησης
+    public void display() {
+        System.out.println("=== Welcome to the Search Screen ===");
+        showSearch();
+    }
+
+    // Εμφανίζει τις επιλογές αναζήτησης
+    public void showSearch() {
+        System.out.println("1. Search Transportation");
+        System.out.println("2. Search Concerts");
+        System.out.println("3. Search Accommodation");
+    }
+
+    // Εμφανίζει τη φόρμα αναζήτησης για μεταφορές
+    public void showTransportationForm() {
+        System.out.println("--- Transportation Search Form ---");
+        // Εδώ θα μπορούσαν να υπάρχουν πεδία όπως: από, προς, ημερομηνία, τύπος κλπ.
+    }
+
+    // Εμφανίζει τη φόρμα αναζήτησης για συναυλίες
+    public void showConcertForm() {
+        System.out.println("--- Concert Search Form ---");
+        // Πεδία: καλλιτέχνης, ημερομηνία, τοποθεσία κλπ.
+    }
+
+    // Εμφανίζει τη φόρμα αναζήτησης για καταλύματα
+    public void showAccommodationForm() {
+        System.out.println("--- Accommodation Search Form ---");
+        // Πεδία: πόλη, check-in/check-out ημερομηνίες, αριθμός ατόμων
+    }
+
+    // Setters (αν χρειαστούν)
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
+    }
+
+    public void setConcert(Concert concert) {
+        this.concert = concert;
+    }
+
+    public void setAccommodation(Accommodation accommodation) {
+        this.accommodation = accommodation;
+    }
+}
+
+
+
+public class SiteManagement {
+    private DB db = new DB();
+
+    // Εμφάνιση της αρχικής οθόνης διαχείρισης
+    public void display() {
+        System.out.println("=== Site Management Panel ===");
+        System.out.println("1. Start Transportation Search");
+        System.out.println("2. Start Concert Search");
+        System.out.println("3. Start Accommodation Search");
+    }
+
+    // Ξεκινά αναζήτηση για καταλύματα
+    public void startSearchAc() {
+        System.out.println("Starting accommodation search...");
+        db.getAccommodationResults().forEach(System.out::println);
+    }
+
+    // Ξεκινά αναζήτηση για συναυλίες
+    public void startSearchCon() {
+        System.out.println("Starting concert search...");
+        db.getConcertResults().forEach(System.out::println);
+    }
+
+    // Ξεκινά αναζήτηση για μεταφορές
+    public void startTransp() {
+        System.out.println("Starting transportation search...");
+        db.getTransportationResults().forEach(System.out::println);
+    }
+}
+
+
+
+
+
+
+
+
+public class UpdateTransportationScreen {
+    private SiteManagement siteManagement;
+
+    public UpdateTransportationScreen(SiteManagement siteManagement) {
+        this.siteManagement = siteManagement;
+    }
+
+    public void display() {
+        System.out.println("=== Update Transportation Screen ===");
+            }
+}
+
+
+
+
+
+public class UpdateConcertScreen {
+    private SiteManagement siteManagement;
+
+    public UpdateConcertScreen(SiteManagement siteManagement) {
+        this.siteManagement = siteManagement;
+    }
+
+    public void display() {
+        System.out.println("=== Update Concert Screen ===");
+        
+    }
+}
+
+
+
+
+public class UpdateAccommodationScreen {
+    private SiteManagement siteManagement;
+
+    public UpdateAccommodationScreen(SiteManagement siteManagement) {
+        this.siteManagement = siteManagement;
+    }
+
+    public void display() {
+        System.out.println("=== Update Accommodation Screen ===");
+        // Εμφάνιση επιλογών για ανανέωση/επεξεργασία καταλυμάτων
+    }
+}
+
+
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class AboutUs {
+    private int messageID;
+    private LocalDate date;
+    private LocalTime time;
+
+    // Κατασκευαστής
+    public AboutUs(int messageID, LocalDate date, LocalTime time) {
+        this.messageID = messageID;
+        this.date = date;
+        this.time = time;
+    }
+
+    // Getters
+    public int getMessageID() {
+        return messageID;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    // Setters
+    public void setMessageID(int messageID) {
+        this.messageID = messageID;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+}
+
+
+import java.time.LocalDateTime;
+
+public class PaymentConfirmation {
+    private User user;
+    private String paymentMethod;
+    private String reservationId;
+    private LocalDateTime reservationDateTime;
+
+    // Constructor
+    public PaymentConfirmation(User user, String paymentMethod, String reservationId, LocalDateTime reservationDateTime) {
+        this.user = user;
+        this.paymentMethod = paymentMethod;
+        this.reservationId = reservationId;
+        this.reservationDateTime = reservationDateTime;
+    }
+
+    // Getters
+    public User getUser() {
+        return user;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public String getReservationId() {
+        return reservationId;
+    }
+
+    public LocalDateTime getReservationDateTime() {
+        return reservationDateTime;
+    }
+
+    // Setters
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setReservationId(String reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public void setReservationDateTime(LocalDateTime reservationDateTime) {
+        this.reservationDateTime = reservationDateTime;
+    }
+}
+
+
+
+public class ConfirmationEmail {
+    private Booking booking;
+    private Account senderAccount;
+    private Account receiverAccount;
+
+    // Constructor
+    public ConfirmationEmail(Booking booking, Account senderAccount, Account receiverAccount) {
+        this.booking = booking;
+        this.senderAccount = senderAccount;
+        this.receiverAccount = receiverAccount;
+    }
+
+    // Getters
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public Account getSenderAccount() {
+        return senderAccount;
+    }
+
+    public Account getReceiverAccount() {
+        return receiverAccount;
+    }
+
+    // Setters
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public void setSenderAccount(Account senderAccount) {
+        this.senderAccount = senderAccount;
+    }
+
+    public void setReceiverAccount(Account receiverAccount) {
+        this.receiverAccount = receiverAccount;
+    }
+}
+
+
+public class ConfirmationScreen {
+    private ConfirmationEmail confirmationEmail;
+
+    public ConfirmationScreen(ConfirmationEmail confirmationEmail) {
+        this.confirmationEmail = confirmationEmail;
+    }
+
+    // Έλεγχος εγκυρότητας αιτήματος (mock)
+    public boolean checkRequest() {
+        // Π.χ. έλεγχος αν booking και accounts δεν είναι null
+        return confirmationEmail != null 
+            && confirmationEmail.getBooking() != null
+            && confirmationEmail.getSenderAccount() != null
+            && confirmationEmail.getReceiverAccount() != null;
+    }
+
+    // Εμφανίζει την οθόνη επιβεβαίωσης
+    public void display() {
+        if (checkRequest()) {
+            System.out.println("Displaying confirmation screen...");
+            printConfMessage();
+        } else {
+            System.out.println("Invalid confirmation request.");
+        }
+    }
+
+    // Τυπώνει μήνυμα επιβεβαίωσης
+    public void printConfMessage() {
+        System.out.println("Confirmation Email sent from " 
+            + confirmationEmail.getSenderAccount().getEmail() 
+            + " to " 
+            + confirmationEmail.getReceiverAccount().getEmail());
+        System.out.println("Regarding booking ID: " + confirmationEmail.getBooking().getBookingId());
+    }
+}
+
+
+
+
+public class BookingScreen {
+    private Booking booking;
+
+    public BookingScreen(Booking booking) {
+        this.booking = booking;
+    }
+
+    public void showBookingDetails() {
+        if (booking == null) {
+            System.out.println("No booking details available.");
+            return;
+        }
+
+        System.out.println("=== Booking Details ===");
+        System.out.println("Booking ID: " + booking.getBookingId());
+        System.out.println("User: " + booking.getUser().getUsername());
+        System.out.println("Date: " + booking.getBookingDate());
+        System.out.println("Details: " + booking.getDetails());
+        // Μπορείς να προσθέσεις και άλλες πληροφορίες ανάλογα με το Booking class
+    }
+}
+
+
+
+
+
+public class CreateAccountScreen {
+    private Account account;
+
+    public CreateAccountScreen(Account account) {
+        this.account = account;
+    }
+
+    // Εμφανίζει τη φόρμα δημιουργίας λογαριασμού
+    public void display() {
+        System.out.println("=== Create Account Screen ===");
+        System.out.println("Please enter your account details.");
+        // Μπορεί να προσθέσεις κώδικα για φόρμες ή input εδώ
+    }
+
+    // Ξεκινά τη διαδικασία υποβολής λογαριασμού
+    public void startSubmit() {
+        if (account == null) {
+            System.out.println("Account information is missing.");
+            return;
+        }
+        // Εδώ μπορεί να γίνει έλεγχος εγκυρότητας και αποθήκευση
+        System.out.println("Submitting account for user: " + account.getUsername());
+        // Πχ αποθήκευση στη βάση, επιβεβαίωση κτλ.
+    }
+}
+
+
+
+
+public class ManageSignInClass {
+    private ManageSign manageSign;
+
+    public ManageSignInClass(ManageSign manageSign) {
+        this.manageSign = manageSign;
+    }
+
+    // Ελέγχει τα στοιχεία σύνδεσης (mock υλοποίηση)
+    public boolean validate(String username, String password) {
+        // Απλός έλεγχος αν δεν είναι κενά
+        return username != null && !username.isEmpty()
+            && password != null && !password.isEmpty();
+    }
+
+    // Εμφανίζει μήνυμα λάθους
+    public void error(String message) {
+        System.out.println("Sign-in Error: " + message);
+    }
+
+    // Εμφανίζει την οθόνη σύνδεσης
+    public void display() {
+        System.out.println("=== Sign In Screen ===");
+        // Εδώ θα μπορούσε να εμφανίζει φόρμες ή επιλογές
+    }
+
+    // Προσπαθεί να συνδεθεί ο χρήστης
+    public void signIn(String username, String password) {
+        if (!validate(username, password)) {
+            error("Invalid username or password.");
+            return;
+        }
+        // Καλεί τη μέθοδο signIn της manageSign (υποθέτοντας ότι υπάρχει)
+        boolean success = manageSign.signIn(username, password);
+        if (success) {
+            System.out.println("Sign-in successful. Welcome, " + username + "!");
+        } else {
+            error("Sign-in failed. Please try again.");
+        }
+    }
+}
+
+
+
+public class SignInScreen {
+    private Account account;
+
+    public SignInScreen(Account account) {
+        this.account = account;
+    }
+
+    // Εμφανίζει την οθόνη σύνδεσης
+    public void display() {
+        System.out.println("=== Sign In Screen ===");
+        System.out.println("Please enter your username and password.");
+        // Εδώ μπορεί να προστεθεί φόρμα ή input από χρήστη
+    }
+
+    // Ξεκινά τη διαδικασία σύνδεσης
+    public void startSignIn(String username, String password) {
+        if (account == null) {
+            System.out.println("No account information available.");
+            return;
+        }
+
+        if (username.equals(account.getUsername()) && password.equals(account.getPassword())) {
+            System.out.println("Sign-in successful. Welcome, " + username + "!");
+        } else {
+            System.out.println("Invalid username or password.");
+        }
+    }
+}
+
+
+
+
+public class TransportationMenu {
+    private Customer customer;
+
+    public TransportationMenu(Customer customer) {
+        this.customer = customer;
+    }
+
+    // Φορτώνει τις διαθέσιμες επιλογές μεταφοράς για τον πελάτη
+    public void loadOptions() {
+        System.out.println("Loading transportation options for customer: " + customer.getUsername());
+        // Εδώ μπορείς να προσθέσεις κώδικα για να φέρεις επιλογές από βάση ή λίστα
+    }
+
+    // Διαχειρίζεται την επιλογή του χρήστη
+    public void makeChoice(int option) {
+        System.out.println("Customer " + customer.getUsername() + " selected option: " + option);
+        // Εδώ πρόσθεσε λογική για την επιλογή του πελάτη (π.χ. κράτηση, προβολή κτλ)
+    }
+}
+
+
+
+
+
+
+
+
+
+
